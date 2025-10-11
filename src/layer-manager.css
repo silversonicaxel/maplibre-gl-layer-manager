@@ -54,7 +54,7 @@
 }
 
 .layer-manager-panel {
-  max-height: 600px;
+  max-height: calc(100vh - 120px);
   overflow-y: auto;
   padding: 10px;
 }
