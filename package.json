@@ -1,0 +1,24 @@
+{
+  "name": "maplibre-gl-layer-manager",
+  "version": "1.0.0",
+  "description": "A MapLibre GL JS plugin for managing layer visibility, opacity, and styles",
+  "main": "src/layer-manager.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "maplibre",
+    "maplibre-gl-js",
+    "layer-manager",
+    "map",
+    "gis"
+  ],
+  "author": "",
+  "license": "MIT",
+  "peerDependencies": {
+    "maplibre-gl": "^3.0.0 || ^4.0.0"
+  },
+  "devDependencies": {
+    "maplibre-gl": "^4.0.0"
+  }
+}

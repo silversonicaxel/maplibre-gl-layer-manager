@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MapLibre GL Layer Manager - Demo</title>
+
+    <!-- MapLibre GL JS -->
+    <script src="https://unpkg.com/maplibre-gl@4.1.2/dist/maplibre-gl.js"></script>
+    <link
+      href="https://unpkg.com/maplibre-gl@4.1.2/dist/maplibre-gl.css"
+      rel="stylesheet"
+    />
+
+    <!-- Layer Manager Plugin -->
+    <link href="../src/layer-manager.css" rel="stylesheet" />
+    <script src="../src/layer-manager.js"></script>
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, sans-serif;
+      }
+
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+
+      .info-panel {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: white;
+        padding: 15px;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        max-width: 300px;
+        z-index: 1;
+      }
+
+      .info-panel h3 {
+        margin: 0 0 10px 0;
+        font-size: 16px;
+      }
+
+      .info-panel p {
+        margin: 5px 0;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .info-panel code {
+        background: #f5f5f5;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <div class="info-panel">
+      <h3>MapLibre GL Layer Manager</h3>
+      <p>This demo showcases the layer manager plugin with multiple layers:</p>
+      <ul style="font-size: 13px; margin: 10px 0; padding-left: 20px">
+        <li><strong>Background</strong> - Base map style</li>
+        <li><strong>USGS Imagery</strong> - Satellite imagery</li>
+        <li><strong>US States</strong> - Polygon layer</li>
+        <li><strong>World Cities</strong> - Point layer</li>
+      </ul>
+      <p
+        style="
+          margin-top: 15px;
+          padding-top: 15px;
+          border-top: 1px solid #e0e0e0;
+        "
+      >
+        <strong>Features:</strong><br />
+        • Toggle layer visibility<br />
+        • Adjust layer opacity<br />
+        • Style layer properties<br />
+        • Remove layers
+      </p>
+    </div>
+
+    <script>
+      // Initialize the map
+      const map = new maplibregl.Map({
+        container: "map",
+        style: {
+          version: 8,
+          sources: {
+            osm: {
+              type: "raster",
+              tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
+              tileSize: 256,
+              attribution: "&copy; OpenStreetMap Contributors",
+            },
+            "usgs-imagery": {
+              type: "raster",
+              tiles: [
+                "https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}",
+              ],
+              tileSize: 256,
+              attribution: "USGS",
+            },
+            "us-states": {
+              type: "geojson",
+              data: "https://docs.mapbox.com/mapbox-gl-js/assets/us_states.geojson",
+            },
+            cities: {
+              type: "geojson",
+              data: "https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_50m_populated_places_simple.geojson",
+            },
+          },
+          layers: [
+            {
+              id: "background",
+              type: "raster",
+              source: "osm",
+              minzoom: 0,
+              maxzoom: 22,
+            },
+            {
+              id: "usgs-imagery",
+              type: "raster",
+              source: "usgs-imagery",
+              minzoom: 0,
+              maxzoom: 16,
+              layout: {
+                visibility: "none",
+              },
+              paint: {
+                "raster-opacity": 0.8,
+              },
+            },
+            {
+              id: "us-states",
+              type: "fill",
+              source: "us-states",
+              paint: {
+                "fill-color": "#627BC1",
+                "fill-opacity": 0.5,
+                "fill-outline-color": "#ffffff",
+              },
+            },
+            {
+              id: "us-states-border",
+              type: "line",
+              source: "us-states",
+              paint: {
+                "line-color": "#627BC1",
+                "line-width": 2,
+                "line-opacity": 0.8,
+              },
+            },
+            {
+              id: "cities",
+              type: "circle",
+              source: "cities",
+              paint: {
+                "circle-radius": 5,
+                "circle-color": "#3388ff",
+                "circle-opacity": 0.8,
+                "circle-stroke-color": "#ffffff",
+                "circle-stroke-width": 1,
+                "circle-stroke-opacity": 1,
+              },
+            },
+          ],
+        },
+        center: [-98.5795, 39.8283],
+        zoom: 3.5,
+      });
+
+      // Wait for the map to load
+      map.on("load", function () {
+        // Initialize the Layer Manager
+        const layerManager = new LayerManager({
+          layers: [
+            {
+              id: "background",
+              name: "background",
+              visible: true,
+              opacity: 1.0,
+              originalStyle: {
+                "raster-opacity": 1.0,
+              },
+            },
+            {
+              id: "usgs-imagery",
+              name: "USGS Imagery",
+              visible: false,
+              opacity: 0.8,
+              originalStyle: {
+                "raster-opacity": 0.8,
+                "raster-brightness-min": 0,
+                "raster-brightness-max": 1,
+                "raster-saturation": 0,
+                "raster-contrast": 0,
+              },
+            },
+            {
+              id: "us-states",
+              name: "US States",
+              visible: true,
+              opacity: 0.5,
+              originalStyle: {
+                "fill-color": "#627BC1",
+                "fill-opacity": 0.5,
+                "fill-outline-color": "#ffffff",
+              },
+            },
+            {
+              id: "us-states-border",
+              name: "US States Border",
+              visible: true,
+              opacity: 0.8,
+              originalStyle: {
+                "line-color": "#627BC1",
+                "line-width": 2,
+                "line-opacity": 0.8,
+              },
+            },
+            {
+              id: "cities",
+              name: "World Cities",
+              visible: true,
+              opacity: 0.8,
+              originalStyle: {
+                "circle-radius": 5,
+                "circle-color": "#3388ff",
+                "circle-opacity": 0.8,
+                "circle-blur": 0,
+                "circle-stroke-color": "#ffffff",
+                "circle-stroke-width": 1,
+                "circle-stroke-opacity": 1,
+              },
+            },
+          ],
+          position: "top-left",
+          collapsed: false,
+        });
+
+        // Add the layer manager to the map
+        map.addControl(layerManager, "top-left");
+
+        console.log("Layer Manager initialized successfully!");
+      });
+
+      // Add navigation controls
+      map.addControl(new maplibregl.NavigationControl(), "top-right");
+
+      // Add scale control
+      map.addControl(new maplibregl.ScaleControl(), "bottom-left");
+
+      // Add click handler for cities
+      map.on("click", "cities", function (e) {
+        const coordinates = e.features[0].geometry.coordinates.slice();
+        const name = e.features[0].properties.name;
+
+        new maplibregl.Popup()
+          .setLngLat(coordinates)
+          .setHTML(`<strong>${name}</strong>`)
+          .addTo(map);
+      });
+
+      // Change cursor on hover
+      map.on("mouseenter", "cities", function () {
+        map.getCanvas().style.cursor = "pointer";
+      });
+
+      map.on("mouseleave", "cities", function () {
+        map.getCanvas().style.cursor = "";
+      });
+    </script>
+  </body>
+</html>
