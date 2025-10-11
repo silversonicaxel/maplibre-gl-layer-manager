@@ -2,7 +2,7 @@
 
 A powerful and user-friendly layer management plugin for MapLibre GL JS that provides comprehensive controls for managing layer visibility, opacity, and styles.
 
-![Layer Manager Screenshot](screenshot.png)
+![Layer Manager Screenshot](https://github.com/user-attachments/assets/1638ddcd-c084-46b1-abc6-159e1cd911a3)
 
 ## Features
 
@@ -32,7 +32,10 @@ Include the CSS and JS files in your HTML:
 ```html
 <!-- MapLibre GL JS -->
 <script src="https://unpkg.com/maplibre-gl@4.1.2/dist/maplibre-gl.js"></script>
-<link href="https://unpkg.com/maplibre-gl@4.1.2/dist/maplibre-gl.css" rel="stylesheet" />
+<link
+  href="https://unpkg.com/maplibre-gl@4.1.2/dist/maplibre-gl.css"
+  rel="stylesheet"
+/>
 
 <!-- Layer Manager Plugin -->
 <link href="path/to/layer-manager.css" rel="stylesheet" />
@@ -46,41 +49,41 @@ Include the CSS and JS files in your HTML:
 ```javascript
 // Initialize your MapLibre GL map
 const map = new maplibregl.Map({
-    container: 'map',
-    style: 'your-map-style.json',
-    center: [-98.5795, 39.8283],
-    zoom: 4
+  container: "map",
+  style: "your-map-style.json",
+  center: [-98.5795, 39.8283],
+  zoom: 4,
 });
 
 // Wait for the map to load
-map.on('load', function() {
-    // Create the layer manager
-    const layerManager = new LayerManager({
-        layers: [
-            {
-                id: 'background',
-                name: 'Background',
-                visible: true,
-                opacity: 1.0
-            },
-            {
-                id: 'cities',
-                name: 'World Cities',
-                visible: true,
-                opacity: 0.8,
-                originalStyle: {
-                    'circle-radius': 5,
-                    'circle-color': '#3388ff',
-                    'circle-opacity': 0.8
-                }
-            }
-        ],
-        position: 'top-left',
-        collapsed: false
-    });
+map.on("load", function () {
+  // Create the layer manager
+  const layerManager = new LayerManager({
+    layers: [
+      {
+        id: "background",
+        name: "Background",
+        visible: true,
+        opacity: 1.0,
+      },
+      {
+        id: "cities",
+        name: "World Cities",
+        visible: true,
+        opacity: 0.8,
+        originalStyle: {
+          "circle-radius": 5,
+          "circle-color": "#3388ff",
+          "circle-opacity": 0.8,
+        },
+      },
+    ],
+    position: "top-left",
+    collapsed: false,
+  });
 
-    // Add the control to the map
-    map.addControl(layerManager, 'top-left');
+  // Add the control to the map
+  map.addControl(layerManager, "top-left");
 });
 ```
 
@@ -88,23 +91,23 @@ map.on('load', function() {
 
 #### LayerManager Constructor Options
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `layers` | Array | `[]` | Array of layer configuration objects |
-| `position` | String | `'top-left'` | Position of the control on the map |
-| `collapsed` | Boolean | `false` | Whether the panel starts collapsed |
+| Option      | Type    | Default      | Description                          |
+| ----------- | ------- | ------------ | ------------------------------------ |
+| `layers`    | Array   | `[]`         | Array of layer configuration objects |
+| `position`  | String  | `'top-left'` | Position of the control on the map   |
+| `collapsed` | Boolean | `false`      | Whether the panel starts collapsed   |
 
 #### Layer Configuration Object
 
-| Property | Type | Required | Description |
-|----------|------|----------|-------------|
-| `id` | String | Yes | Layer ID (must match the layer ID in your map style) |
-| `name` | String | No | Display name for the layer (defaults to id) |
-| `visible` | Boolean | No | Initial visibility state (default: true) |
-| `opacity` | Number | No | Initial opacity (0-1, default: 1.0) |
-| `originalStyle` | Object | No | Original paint properties for the Reset function |
-| `minzoom` | Number | No | Minimum zoom level for the layer |
-| `maxzoom` | Number | No | Maximum zoom level for the layer |
+| Property        | Type    | Required | Description                                          |
+| --------------- | ------- | -------- | ---------------------------------------------------- |
+| `id`            | String  | Yes      | Layer ID (must match the layer ID in your map style) |
+| `name`          | String  | No       | Display name for the layer (defaults to id)          |
+| `visible`       | Boolean | No       | Initial visibility state (default: true)             |
+| `opacity`       | Number  | No       | Initial opacity (0-1, default: 1.0)                  |
+| `originalStyle` | Object  | No       | Original paint properties for the Reset function     |
+| `minzoom`       | Number  | No       | Minimum zoom level for the layer                     |
+| `maxzoom`       | Number  | No       | Maximum zoom level for the layer                     |
 
 ### Methods
 
@@ -114,10 +117,10 @@ Add a new layer to the layer manager.
 
 ```javascript
 layerManager.addLayer({
-    id: 'new-layer',
-    name: 'New Layer',
-    visible: true,
-    opacity: 1.0
+  id: "new-layer",
+  name: "New Layer",
+  visible: true,
+  opacity: 1.0,
 });
 ```
 
@@ -126,7 +129,7 @@ layerManager.addLayer({
 Remove a layer from the layer manager.
 
 ```javascript
-layerManager.removeLayer('layer-id');
+layerManager.removeLayer("layer-id");
 ```
 
 #### `getPosition()`
@@ -149,6 +152,7 @@ The Layer Manager supports styling for the following MapLibre GL layer types:
 ## Style Editor Properties
 
 ### Circle Layers
+
 - Circle Color
 - Circle Radius (0-20)
 - Circle Opacity (0-1)
@@ -158,17 +162,20 @@ The Layer Manager supports styling for the following MapLibre GL layer types:
 - Circle Stroke Opacity (0-1)
 
 ### Line Layers
+
 - Line Color
 - Line Width (0-20)
 - Line Opacity (0-1)
 - Line Blur (0-5)
 
 ### Fill Layers
+
 - Fill Color
 - Fill Opacity (0-1)
 - Fill Outline Color
 
 ### Raster Layers
+
 - Raster Opacity (0-1)
 - Raster Brightness Min (-1 to 1)
 - Raster Brightness Max (-1 to 1)
@@ -184,6 +191,7 @@ To run the demo:
 3. Interact with the layer manager in the top-left corner
 
 The demo showcases:
+
 - Base map background layer
 - USGS satellite imagery layer
 - US States polygon layer
@@ -230,6 +238,7 @@ For issues and questions, please open an issue on GitHub.
 ## Roadmap
 
 Future enhancements planned:
+
 - [ ] Layer grouping
 - [ ] Search/filter layers
 - [ ] Export layer configurations
@@ -246,64 +255,64 @@ Future enhancements planned:
 
 ```javascript
 const layerManager = new LayerManager({
-    layers: [
-        {
-            id: 'satellite',
-            name: 'Satellite Imagery',
-            visible: false,
-            opacity: 0.8,
-            originalStyle: {
-                'raster-opacity': 0.8,
-                'raster-brightness-min': 0,
-                'raster-brightness-max': 1
-            }
-        },
-        {
-            id: 'boundaries',
-            name: 'State Boundaries',
-            visible: true,
-            opacity: 0.6,
-            originalStyle: {
-                'fill-color': '#627BC1',
-                'fill-opacity': 0.6,
-                'fill-outline-color': '#ffffff'
-            }
-        }
-    ],
-    position: 'top-right',
-    collapsed: true
+  layers: [
+    {
+      id: "satellite",
+      name: "Satellite Imagery",
+      visible: false,
+      opacity: 0.8,
+      originalStyle: {
+        "raster-opacity": 0.8,
+        "raster-brightness-min": 0,
+        "raster-brightness-max": 1,
+      },
+    },
+    {
+      id: "boundaries",
+      name: "State Boundaries",
+      visible: true,
+      opacity: 0.6,
+      originalStyle: {
+        "fill-color": "#627BC1",
+        "fill-opacity": 0.6,
+        "fill-outline-color": "#ffffff",
+      },
+    },
+  ],
+  position: "top-right",
+  collapsed: true,
 });
 
-map.addControl(layerManager, 'top-right');
+map.addControl(layerManager, "top-right");
 ```
 
 ### Dynamically Adding Layers
 
 ```javascript
 // Add a new GeoJSON source to the map
-map.addSource('earthquakes', {
-    type: 'geojson',
-    data: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson'
+map.addSource("earthquakes", {
+  type: "geojson",
+  data: "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson",
 });
 
 // Add the layer to the map
 map.addLayer({
-    id: 'earthquakes',
-    type: 'circle',
-    source: 'earthquakes',
-    paint: {
-        'circle-radius': 8,
-        'circle-color': '#ff0000',
-        'circle-opacity': 0.6
-    }
+  id: "earthquakes",
+  type: "circle",
+  source: "earthquakes",
+  paint: {
+    "circle-radius": 8,
+    "circle-color": "#ff0000",
+    "circle-opacity": 0.6,
+  },
 });
 
 // Add it to the layer manager
 layerManager.addLayer({
-    id: 'earthquakes',
-    name: 'Recent Earthquakes',
-    visible: true,
-    opacity: 0.6
+  id: "earthquakes",
+  name: "Recent Earthquakes",
+  visible: true,
+  opacity: 0.6,
 });
 ```
 
@@ -324,6 +333,7 @@ A: Currently, the plugin supports 2D layers (circle, line, fill, raster). 3D lay
 ## Changelog
 
 ### Version 1.0.0 (2025-10-11)
+
 - Initial release
 - Layer visibility controls
 - Opacity adjustment
