@@ -19,27 +19,27 @@ A powerful and user-friendly layer management plugin for MapLibre GL JS that pro
 
 ## Installation
 
-### NPM (Coming Soon)
+### NPM
 
 ```bash
 npm install maplibre-gl-layer-manager
 ```
 
-### CDN (Manual)
+### CDN
 
-Include the CSS and JS files in your HTML:
+Include the CSS and JS files from unpkg in your HTML:
 
 ```html
 <!-- MapLibre GL JS -->
-<script src="https://unpkg.com/maplibre-gl@4.1.2/dist/maplibre-gl.js"></script>
+<script src="https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js"></script>
 <link
-  href="https://unpkg.com/maplibre-gl@4.1.2/dist/maplibre-gl.css"
+  href="https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css"
   rel="stylesheet"
 />
 
 <!-- Layer Manager Plugin -->
-<link href="path/to/layer-manager.css" rel="stylesheet" />
-<script src="path/to/layer-manager.js"></script>
+<link href="https://unpkg.com/maplibre-gl-layer-manager@latest/src/layer-manager.css" rel="stylesheet" />
+<script src="https://unpkg.com/maplibre-gl-layer-manager@latest/src/layer-manager.js"></script>
 ```
 
 ## Usage
@@ -47,6 +47,11 @@ Include the CSS and JS files in your HTML:
 ### Basic Example
 
 ```javascript
+import maplibregl from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
+import LayerManager from 'maplibre-gl-layer-manager';
+import 'maplibre-gl-layer-manager/src/layer-manager.css';
+
 // Initialize your MapLibre GL map
 const map = new maplibregl.Map({
   container: "map",
@@ -85,6 +90,51 @@ map.on("load", function () {
   // Add the control to the map
   map.addControl(layerManager, "top-left");
 });
+```
+
+#### Using CDN (without npm)
+
+If you're using the CDN version, the `LayerManager` class is available globally:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css" rel="stylesheet" />
+  <link href="https://unpkg.com/maplibre-gl-layer-manager@latest/src/layer-manager.css" rel="stylesheet" />
+  <style>
+    body { margin: 0; padding: 0; }
+    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js"></script>
+  <script src="https://unpkg.com/maplibre-gl-layer-manager@latest/src/layer-manager.js"></script>
+  <script>
+    const map = new maplibregl.Map({
+      container: "map",
+      style: "your-map-style.json",
+      center: [-98.5795, 39.8283],
+      zoom: 4,
+    });
+
+    map.on("load", function () {
+      const layerManager = new LayerManager({
+        layers: [
+          { id: "background", name: "Background", visible: true },
+          { id: "cities", name: "World Cities", visible: true }
+        ],
+        position: "top-left",
+        collapsed: false,
+      });
+
+      map.addControl(layerManager, "top-left");
+    });
+  </script>
+</body>
+</html>
 ```
 
 ### Configuration Options
