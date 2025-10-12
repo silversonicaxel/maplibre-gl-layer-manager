@@ -74,7 +74,7 @@ class LayerManager {
 
   _togglePanel() {
     if (this.panel.style.display === 'none') {
-      this.panel.style.display = 'block';
+      this.panel.style.display = '';
       this.collapsed = false;
     } else {
       this.panel.style.display = 'none';
@@ -118,7 +118,7 @@ class LayerManager {
     collapseBtn.onclick = (e) => {
       const list = section.querySelector('.layer-manager-list');
       if (list.style.display === 'none') {
-        list.style.display = 'block';
+        list.style.display = '';
         e.target.innerHTML = '&#x25B2;';
       } else {
         list.style.display = 'none';
