@@ -64,6 +64,7 @@ const map = new maplibregl.Map({
 map.on("load", function () {
   // Create the layer manager
   const layerManager = new LayerManager({
+    title: "Panel",
     layers: [
       {
         id: "background",
@@ -143,6 +144,7 @@ If you're using the CDN version, the `LayerManager` class is available globally:
 
 | Option      | Type    | Default      | Description                          |
 | ----------- | ------- | ------------ | ------------------------------------ |
+| `title`     | String  | `Layers`     | Title of the layer manager panel     |
 | `layers`    | Array   | `[]`         | Array of layer configuration objects |
 | `position`  | String  | `'top-left'` | Position of the control on the map   |
 | `collapsed` | Boolean | `false`      | Whether the panel starts collapsed   |
