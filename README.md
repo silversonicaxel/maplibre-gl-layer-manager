@@ -142,12 +142,14 @@ If you're using the CDN version, the `LayerManager` class is available globally:
 
 #### LayerManager Constructor Options
 
-| Option      | Type    | Default      | Description                          |
-| ----------- | ------- | ------------ | ------------------------------------ |
+| Option        | Type    | Default      | Description                          |
+| ------------- | ------- | ------------ | ------------------------------------ |
+| `layers`      | Array   | `[]`         | Array of layer configuration objects |
+| `position`    | String  | `'top-left'` | Position of the control on the map   |
+| `collapsed`   | Boolean | `false`      | Whether the panel starts collapsed   |
+| `hideReorder` | Boolean | `false`      | Whether to hide the reorder buttons  |
 | `title`     | String  | `Layers`     | Title of the layer manager panel     |
-| `layers`    | Array   | `[]`         | Array of layer configuration objects |
 | `position`  | String  | `'top-left'` | Position of the control on the map   |
-| `collapsed` | Boolean | `false`      | Whether the panel starts collapsed   |
 
 #### Layer Configuration Object
 

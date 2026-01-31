@@ -10,6 +10,7 @@ class LayerManager {
     this.layers = options.layers || [];
     this.position = options.position || 'top-left';
     this.collapsed = options.collapsed || false;
+    this.hideReorder = options.hideReorder || false;
     this.styleEditors = new Map();
     this.layerConfigs = new Map();
 
@@ -234,7 +235,7 @@ class LayerManager {
     controls.appendChild(styleBtn);
     controls.appendChild(removeBtn);
 
-    item.appendChild(reorderControls);
+    !this.hideReorder && item.appendChild(reorderControls);
     item.appendChild(checkbox);
     item.appendChild(label);
     item.appendChild(controls);
