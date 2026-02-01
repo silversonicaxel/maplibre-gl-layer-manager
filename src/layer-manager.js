@@ -144,15 +144,22 @@ class LayerManager {
     return section;
   }
 
-  _createLayerItem(layer) {
-    const item = document.createElement('div');
-    item.className = 'layer-manager-item';
-    item.dataset.layerId = layer.id;
-
+  _createLayerItemReorder(layer, item) {
     // Create reorder controls container
     const reorderControls = document.createElement('div');
     reorderControls.className = 'layer-manager-reorder-controls';
 
+    const dragHandle = this._createLayerItemDragger(item);
+    const upBtn = this._createLayerItemUpMover(layer);
+    const downBtn = this._createLayerItemDownMover(layer);
+
+    reorderControls.appendChild(dragHandle);
+    reorderControls.appendChild(upBtn);
+    reorderControls.appendChild(downBtn);
+    return reorderControls;
+  }
+
+  _createLayerItemDragger(item) {
     // Create drag handle
     const dragHandle = document.createElement('div');
     dragHandle.className = 'layer-manager-drag-handle';
@@ -167,24 +174,33 @@ class LayerManager {
     item.ondragend = (e) => this._handleDragEnd(e);
     item.ondragenter = (e) => this._handleDragEnter(e);
     item.ondragleave = (e) => this._handleDragLeave(e);
+    return dragHandle;
+  }
 
+  _createLayerItemUpMover(layer) {
     // Up arrow button
     const upBtn = document.createElement('button');
     upBtn.className = 'layer-manager-btn-move-up';
     upBtn.innerHTML = '&#9650;'; // Up triangle
     upBtn.title = 'Move up';
     upBtn.onclick = () => this._moveLayerUp(layer.id);
+    return upBtn;
+  }
 
+  _createLayerItemDownMover(layer) {
     // Down arrow button
     const downBtn = document.createElement('button');
     downBtn.className = 'layer-manager-btn-move-down';
     downBtn.innerHTML = '&#9660;'; // Down triangle
     downBtn.title = 'Move down';
     downBtn.onclick = () => this._moveLayerDown(layer.id);
+    return downBtn;
+  }
 
-    reorderControls.appendChild(dragHandle);
-    reorderControls.appendChild(upBtn);
-    reorderControls.appendChild(downBtn);
+  _createLayerItem(layer) {
+    const item = document.createElement('div');
+    item.className = 'layer-manager-item';
+    item.dataset.layerId = layer.id;
 
     // Checkbox for visibility
     const checkbox = document.createElement('input');
@@ -235,7 +251,10 @@ class LayerManager {
     controls.appendChild(styleBtn);
     controls.appendChild(removeBtn);
 
-    !this.hideReorder && item.appendChild(reorderControls);
+    if (!this.hideReorder) {
+      const reorderControls = this._createLayerItemReorder(layer, item);
+      item.appendChild(reorderControls);
+    }
     item.appendChild(checkbox);
     item.appendChild(label);
     item.appendChild(controls);
